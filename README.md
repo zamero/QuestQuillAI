@@ -1,7 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/CViV37hj)
-
-# u08 -Business Idea
-
 <span style="color:#; font-family: ; font-size: 4em;">Chat</span> <span style="color:#8B5CF6;font-family: ; font-size: 4em;">Labs</span>
 
 ![Chat Labs logo](/chatlabs/src/assets/logo2.png "Chat Labs logo")
@@ -99,17 +95,6 @@ This is not limited to video games, but can also be used in a more traditional b
 Happy developing!
 / Chat labs team
 
-# Dokumentation
-
-Daily-Scrums:
-https://docs.google.com/document/d/1LMuhqvmej-LUDXtamVxOSvMyaCqgHevOQF9dOItwGDQ
-
-Mongoose Schema:
-https://cdn.discordapp.com/attachments/1103323453068673124/1105118330131599380/ER-diagram-v2.png
-
-Figma initial sketch:
-https://www.figma.com/file/r8tbrfqE1j1VS8NlltcdzL/The-AI-Artist?type=design&node-id=0-1&t=Xlo4QOVlnC3OZNYj-0
-
 # Bidragarna
 
 Samer Essam
@@ -118,23 +103,3 @@ https://www.linkedin.com/in/samer-essam-9908b41a2/
 
 Ghanemla lamloumi
 https://github.com/Ghanemla
-
-Isabelle Johannesson
-https://github.com/isabellejohannesson
-https://www.linkedin.com/in/isabellejohannesson
-
-Sandra Rehnström
-https://www.linkedin.com/in/sandra-rehnstr%C3%B6m-54a547188/
-
-Nejirwan Ramadan
-https://github.com/NRiCe31
-https://www.linkedin.com/in/nejirwan-ramadan/
-
-Camilla Gustafsson
-https://github.com/Camgus89
-https://www.linkedin.com/in/camilla-gustafsson-1951aa136/
-
-# Licens
-
-MIT LICENSE:
-https://github.com/zamero/u08-business-idea-grupp3-u08/blob/main/LICENSE
