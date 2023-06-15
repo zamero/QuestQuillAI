@@ -1,66 +1,94 @@
-import { useEffect, useState } from "react"
-import { useParams, useLocation, useNavigate } from "react-router-dom"
-import axios from "axios"
+import { useEffect, useState } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   TrashIcon,
   PencilIcon,
   ArrowLeftIcon,
   ExclamationCircleIcon,
-} from "@heroicons/react/24/solid"
-import ChatPrompt from "../components/ChatPrompt"
-import FormModal from "./FormModal"
+} from "@heroicons/react/24/solid";
+import ChatPrompt from "../components/ChatPrompt";
+import FormModal from "./FormModal";
 
 function DashBoard4() {
   const handleGoBack = () => {
-    navigate("/dashboard")
-  }
-  const navigate = useNavigate()
-  const { id } = useParams()
+    navigate("/dashboard");
+  };
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [character, setCharacter] = useState<{
-    name: string
-    traits: string
-    backstory: string
-  } | null>(null)
-  const location = useLocation()
-  const [showForm, setShowForm] = useState(false)
-  const [showChat, setShowChat] = useState(false)
+    name: string;
+    traits: string;
+    backstory: string;
+    voice: string;
+  } | null>(null);
+  const location = useLocation();
+  const [showForm, setShowForm] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+
+  const voices = {
+    Rachel: "21m00Tcm4TlvDq8ikWAM",
+    Domi: "AZnzlk1XvdvUeBnXmlld",
+    Bella: "EXAVITQu4vr4xnSDxMaL",
+    Antoni: "ErXwobaYiN019PkySvjV",
+    Elli: "MF3mGyEYCl7XYWbV9V6O",
+    Josh: "TxGEqnHWrfWFTfGW9XjX",
+    Arnold: "VR6AewLTigWG4xSOukaG",
+    Adam: "pNInz6obpgDQGcFmaJgB",
+    Sam: "yoZ06aMxZJJ28mfd3POQ",
+  };
+
+  const checkValue = (value) => {
+    for (const key in voices) {
+      if (voices[key] === value) {
+        return key;
+      }
+    }
+    return "No matching key found";
+  };
+
+  const inputValue = character?.voice; // Use optional chaining to access the voice property
+  const correspondingKey = inputValue ? checkValue(inputValue) : null; // Check if inputValue exists before calling checkValue
+
+  console.log(correspondingKey);
+  // Output: Sam
 
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-        console.log(`Fetching character with: `)
+        console.log(`Fetching character with: `);
         const response = await axios.get(
           `http://localhost:4000/getone/${localStorage.getItem("userId")}/${
             location.state.index
           }`
-        )
-        console.log("Response:", response.data.character)
-        console.log(response.data)
-        setCharacter(response.data.character)
+        );
+        console.log("Response:", response.data.character);
+        console.log(response.data);
+        setCharacter(response.data.character);
       } catch (error: any) {
         if (error.response && error.response.status === 404) {
-          console.log("Character not found")
+          console.log("Character not found");
         } else {
-          console.log("An error occurred:", error)
+          console.log("An error occurred:", error);
         }
       }
-    }
+    };
 
-    fetchCharacter()
-  }, [id, location.state.index])
+    fetchCharacter();
+  }, [id, location.state.index]);
 
   const deleteCharacter = async (index: number) => {
     const response = await fetch(
       `http://localhost:4000/delete/${localStorage.getItem("userId")}/${index}`,
       { method: "delete" }
-    )
-    const res = await response.json()
-    console.log(res)
-    navigate("/dashboard")
-  }
+    );
+    const res = await response.json();
+    console.log(res);
+    navigate("/dashboard");
+  };
 
   if (!character) {
-    return <div className="text-violet-500">Loading...</div>
+    return <div className="text-violet-500">Loading...</div>;
   }
   return (
     <>
@@ -104,6 +132,15 @@ function DashBoard4() {
             <h1 className="mb-4 text-2xl font-semibold text-center uppercase text-violet-500">
               {character.name}
             </h1>
+            <div>
+              <h2 className="mb-2 text-lg font-medium uppercase text-violet-500">
+                Voice:
+              </h2>
+              <p className="text-white mb-5 text-2xl font-semibold">
+                {" "}
+                {correspondingKey}
+              </p>
+            </div>
             <div className="mb-4">
               <h2 className=" mb-2 text-lg font-medium uppercase text-violet-500">
                 Traits:
@@ -176,7 +213,7 @@ function DashBoard4() {
         )}
       </div>
     </>
-  )
+  );
 }
 
-export default DashBoard4
+export default DashBoard4;

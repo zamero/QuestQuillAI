@@ -1,44 +1,47 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function FormModal({
   closeFormModal,
   data,
 }: {
-  closeFormModal: (arg0: boolean) => void
-  data: number
+  closeFormModal: (arg0: boolean) => void;
+  data: number;
 }) {
-  console.log(data)
+  console.log(data);
 
   const [initialForm, setInitialForm] = useState({
     name: "",
     backstory: "",
     traits: "",
-  })
-  const [isSubmitted, setIsSubmitted] = useState(false)
+    voice: "",
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function handleFormChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) {
-    setInitialForm({ ...initialForm, [event.target.id]: event.target.value })
+    setInitialForm({ ...initialForm, [event.target.id]: event.target.value });
 
     if (event.target.id === "backstory") {
-      updateBackstoryCount(event.target.value)
+      updateBackstoryCount(event.target.value);
     }
   }
 
   function validateTraits(traits: string): boolean {
-    const trimmedTraits = traits.trim()
-    const traitsArray = trimmedTraits.split(",").map((trait) => trait.trim())
-    return traitsArray.every((trait) => trait !== "" && !trait.includes(" "))
+    const trimmedTraits = traits.trim();
+    const traitsArray = trimmedTraits.split(",").map((trait) => trait.trim());
+    return traitsArray.every((trait) => trait !== "" && !trait.includes(" "));
   }
 
   async function updateCharacter(index: number) {
-    const isValidTraits = validateTraits(initialForm.traits)
+    const isValidTraits = validateTraits(initialForm.traits);
 
     if (!isValidTraits) {
-      setIsSubmitted(true)
-      return
+      setIsSubmitted(true);
+      return;
     }
 
     await fetch(
@@ -50,25 +53,26 @@ function FormModal({
         },
         body: JSON.stringify({
           name: initialForm.name,
+          voice: initialForm.voice,
           backstory: initialForm.backstory,
           traits: initialForm.traits,
         }),
       }
-    )
-    navigate("/dashboard")
+    );
+    navigate("/dashboard");
   }
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [backstoryCount, setBackstoryCount] = useState(
     3000 - initialForm.backstory.length
-  )
+  );
 
   const updateBackstoryCount = (value: string): void => {
-    const remainingCharacters = 3000 - value.length
-    setBackstoryCount(remainingCharacters)
-  }
-
+    const remainingCharacters = 3000 - value.length;
+    setBackstoryCount(remainingCharacters);
+  };
+  console.log(handleFormChange);
   return (
     <div className="fixed inset-0 z-10 bg-neutral-950 bg-opacity-25 backdrop-blur-sm">
       <div className="flex justify-center mt-14">
@@ -93,6 +97,31 @@ function FormModal({
                 placeholder=""
                 required
               />
+            </div>
+
+            <div className="mb-5">
+              <label
+                htmlFor="voice"
+                className="block text-gray-100 text-sm font-bold mb-2"
+              >
+                Voice
+              </label>
+              <select
+                className="bg-neutral-800 shadow appearance-none rounded w-1/2 py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline"
+                name="voice"
+                id="voice"
+                onChange={handleFormChange}
+              >
+                <option value="21m00Tcm4TlvDq8ikWAM">Rachel</option>
+                <option value="AZnzlk1XvdvUeBnXmlld">Domi</option>
+                <option value="EXAVITQu4vr4xnSDxMaL">Bella</option>
+                <option value="ErXwobaYiN019PkySvjV">Antoni</option>
+                <option value="MF3mGyEYCl7XYWbV9V6O">Elli</option>
+                <option value="TxGEqnHWrfWFTfGW9XjX">Josh</option>
+                <option value="VR6AewLTigWG4xSOukaG">Arnold</option>
+                <option value="pNInz6obpgDQGcFmaJgB">Adam</option>
+                <option value="yoZ06aMxZJJ28mfd3POQ">Sam</option>
+              </select>
             </div>
 
             <div className="mb-5">
@@ -158,7 +187,7 @@ function FormModal({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default FormModal
+export default FormModal;

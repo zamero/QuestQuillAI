@@ -33,7 +33,7 @@ const PORT = 4000;
 // const PORT = process.env.PORT || 4000;
 
 // cors är bra så att vi kan ha server och client isär
-app.use(cors({origin:"*"}));
+app.use(cors({ origin: "*" }));
 // parse json objects
 app.use(express.json());
 // parse url encoded objects- data sent through the url
@@ -88,11 +88,11 @@ app.delete("/delete/:id/:index", async (req, res) => {
 
 app.put("/edit/:id/:index", async (req, res) => {
   try {
-    const { name, backstory, traits } = req.body;
+    const { name, backstory, traits, voice } = req.body;
     const { id, index } = req.params;
     const user = await User.findOneAndUpdate(
       { _id: id },
-      { $set: { [`Characters.${index}`]: { name, backstory, traits } } }
+      { $set: { [`Characters.${index}`]: { name, backstory, traits, voice } } }
     );
     if (user.nModified === 0) {
       throw new Error("User not found");
@@ -183,26 +183,26 @@ app.post('/prompt/:id/:index', async (req, res) => {
 });
 
 
- app.get("/getone/:id/:index", async (req, res) => {
-   try {
-     const { id, index } = req.params;
-     const user = await User.findOne({ _id: id });
-     if (!user) {
-       throw new Error("User not found");
-     }
-     const character = user.Characters[index];
-     res.status(200).json({
-       message: "Character retrieved",
-       character,
-     });
-   } catch (error) {
-     res.status(500).json({
-       message: error.message,
-     });
-   }
- });
+app.get("/getone/:id/:index", async (req, res) => {
+  try {
+    const { id, index } = req.params;
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const character = user.Characters[index];
+    res.status(200).json({
+      message: "Character retrieved",
+      character,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
 
- app.get("/getid/:sub/", async (req, res) => {
+app.get("/getid/:sub/", async (req, res) => {
   try {
     const { sub } = req.params;
     const user = await User.findOne({ sub: sub });
