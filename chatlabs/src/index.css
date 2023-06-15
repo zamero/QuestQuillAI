@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #171717;
+}
+
+.zoom-in-trait {
+  transition: transform 0.2s;
+}
+
+.zoom-in-trait:hover {
+  transform: scale(1.1);
+}
+
+
+/* Mobile devices (up to 767px) */
+@media (max-width: 767px) {
+  /* Apply mobile-specific styles */
+}
+
+/* Tablets (768px to 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Apply tablet-specific styles */
+}
+
+/* Desktops and larger screens (1024px and above) */
+@media (min-width: 1024px) {
+  /* Apply desktop-specific styles */
+}
