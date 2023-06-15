@@ -42,9 +42,7 @@ function FormModal({
     }
 
     await fetch(
-      `https://chatlabs.up.railway.app/edit/${localStorage.getItem(
-        "userId"
-      )}/${index}`,
+      `http://localhost:4000/edit/${localStorage.getItem("userId")}/${index}`,
       {
         method: "PUT",
         headers: {

@@ -22,6 +22,10 @@ const usersSchema = mongoose.Schema({
             traits: {
                 type: String,
                 required: true
+            },
+            voice: {
+                type: String,
+                required: true
             }
         }
     ]

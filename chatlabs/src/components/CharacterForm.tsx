@@ -15,6 +15,7 @@ interface CharacterFormProps {
   voice: string
   onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   onBackstoryChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
+  onVoiceChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
   onTraitsChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   onSubmit: (formData: CharacterFormData) => Promise<void>
 }
@@ -26,6 +27,7 @@ const CharacterForm: React.FC<CharacterFormProps> = ({
   voice,
   onNameChange,
   onBackstoryChange,
+  onVoiceChange,
   onTraitsChange,
   onSubmit,
 }) => {
@@ -38,7 +40,6 @@ const CharacterForm: React.FC<CharacterFormProps> = ({
     event.preventDefault()
 
     const trimmedTraits = traits.trim()
-    const trimmedVoice = voice.trim()
     const traitsArray = trimmedTraits.split(",").map((trait) => trait.trim())
     const isValidTraits = traitsArray.every(
       (trait) => trait !== "" && !trait.includes(" ")
@@ -53,7 +54,7 @@ const CharacterForm: React.FC<CharacterFormProps> = ({
       name: name.trim(),
       backstory: backstory.trim(),
       traits: trimmedTraits,
-      voice: trimmedVoice,
+      voice: voice.trim(),
     })
 
     navigate("/Dashboard")
@@ -110,11 +111,27 @@ const CharacterForm: React.FC<CharacterFormProps> = ({
       </div>
 
       <div className="mb-5">
-        <select name="cars" id="cars">
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
+        <label
+          htmlFor="voice"
+          className="block text-gray-100 text-sm font-bold mb-2"
+        >
+          Voice
+        </label>
+        <select
+          className="bg-neutral-800 shadow appearance-none rounded w-1/6 py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline"
+          name="voice"
+          id="voice"
+          onChange={onVoiceChange}
+        >
+          <option value="21m00Tcm4TlvDq8ikWAM">Rachel</option>
+          <option value="AZnzlk1XvdvUeBnXmlld">Domi</option>
+          <option value="EXAVITQu4vr4xnSDxMaL">Bella</option>
+          <option value="ErXwobaYiN019PkySvjV">Antoni</option>
+          <option value="MF3mGyEYCl7XYWbV9V6O">Elli</option>
+          <option value="TxGEqnHWrfWFTfGW9XjX">Josh</option>
+          <option value="VR6AewLTigWG4xSOukaG">Arnold</option>
+          <option value="pNInz6obpgDQGcFmaJgB">Adam</option>
+          <option value="yoZ06aMxZJJ28mfd3POQ">Sam</option>
         </select>
       </div>
 

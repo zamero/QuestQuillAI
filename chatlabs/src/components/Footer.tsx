@@ -14,7 +14,7 @@ function Footer() {
                 alt="Flowbite Logo"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
-                <span className="text-violet-500">Chat</span> Labs
+                <span className="text-violet-500">Quest</span> QuillAI
               </span>
             </a>
             <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-white sm:mb-0 ">
@@ -23,7 +23,7 @@ function Footer() {
                   About
                 </a>
               </li>
-              <li> 
+              <li>
                 <a href="#" className="mr-4 hover:underline md:mr-6">
                   Privacy Policy
                 </a>
@@ -40,16 +40,14 @@ function Footer() {
           <span className="block text-sm text-white sm:text-center ">
             © 2023{" "}
             <a href="https://flowbite.com/" className="hover:underline">
-              Chatlabs™
+              QuestQuillAI™
             </a>
             . All Rights Reserved.
           </span>
         </div>
       </footer>
     </div>
-  );
+  )
 }
 
-
-
-export default Footer;
+export default Footer

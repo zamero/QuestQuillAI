@@ -33,7 +33,7 @@ function ChatPrompt({ index }: { index: number }) {
 
     try {
       const response = await axios.post(
-        `https://chatlabs.up.railway.app/prompt/${localStorage.getItem(
+        `http://localhost:4000/prompt/${localStorage.getItem(
           "userId"
         )}/${index}`,
         {
@@ -93,7 +93,7 @@ function ChatPrompt({ index }: { index: number }) {
                 <img
                   src="https://drive.google.com/uc?id=1NJrgM8zoisyIYc_hE66zxhEEOA4Po76h"
                   className="h-12 rounded order-1 ml-3 py-2 px-1 bg-neutral-900"
-                  alt="Chatlabs Logo"
+                  alt="QuestQuillAI Logo"
                 />
                 <audio controls>
                   <source src={url} type="audio/mpeg" />

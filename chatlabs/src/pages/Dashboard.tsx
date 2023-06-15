@@ -1,36 +1,30 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 
 function Dashboard() {
-  const [userData, setUserData] = useState<any[]>([]);
-  const [rerenderFlag, setRerenderFlag] = useState(false);
+  const [userData, setUserData] = useState<any[]>([])
+  const [rerenderFlag, setRerenderFlag] = useState(false)
 
   const deleteCharacter = async (index: number) => {
     const response = await fetch(
-      `https://chatlabs.up.railway.app/delete/${localStorage.getItem(
-        "userId"
-      )}/${index}`,
+      `http://localhost:4000/delete/${localStorage.getItem("userId")}/${index}`,
       { method: "delete" }
-    );
-    const res = await response.json();
-    console.log(res);
-    console.log("Character successfully deleted");
+    )
+    const res = await response.json()
+    console.log(res)
+    console.log("Character successfully deleted")
     // Rerender
-    setRerenderFlag((prevFlag) => !prevFlag);
-  };
+    setRerenderFlag((prevFlag) => !prevFlag)
+  }
 
   useEffect(() => {
-    fetch(
-      `https://chatlabs.up.railway.app/characters/${localStorage.getItem(
-        "userId"
-      )}`
-    )
+    fetch(`http://localhost:4000/characters/${localStorage.getItem("userId")}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setUserData(data.characters);
-      });
-  }, [rerenderFlag]);
+        console.log(data)
+        setUserData(data.characters)
+      })
+  }, [rerenderFlag])
 
   return (
     <>
@@ -46,12 +40,12 @@ function Dashboard() {
             {userData &&
               userData.map((character: any, index: number) => {
                 const truncateText = (text: string, limit: number) => {
-                  const words = text.split(" ");
+                  const words = text.split(" ")
                   if (words.length > limit) {
-                    return words.slice(0, limit).join(" ") + "...";
+                    return words.slice(0, limit).join(" ") + "..."
                   }
-                  return text;
-                };
+                  return text
+                }
 
                 return (
                   <>
@@ -123,8 +117,8 @@ function Dashboard() {
                             <div className="grid grid-cols-1 gap-2">
                               <button
                                 onClick={(event) => {
-                                  deleteCharacter(index);
-                                  event.preventDefault();
+                                  deleteCharacter(index)
+                                  event.preventDefault()
                                 }}
                                 className="px-2 bg-violet-700 rounded-md p-1 m-1 hover:opacity-70"
                               >
@@ -149,7 +143,7 @@ function Dashboard() {
                       </div>
                     </Link>
                   </>
-                );
+                )
               })}
           </>
 
@@ -166,6 +160,6 @@ function Dashboard() {
         </div>
       </section>
     </>
-  );
+  )
 }
-export default Dashboard;
+export default Dashboard

@@ -17,7 +17,7 @@ function NavBar() {
   }
 
   async function AddEmailToDB(data: any, subData: any) {
-    const response = await fetch("https://chatlabs.up.railway.app/createuser", {
+    const response = await fetch("http://localhost:4000/createuser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,15 +31,12 @@ function NavBar() {
     let data
 
     try {
-      const response = await fetch(
-        `https://chatlabs.up.railway.app/getid/${sub}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      const response = await fetch(`http://localhost:4000/getid/${sub}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
 
       data = await response.json()
     } catch (error) {
@@ -98,10 +95,11 @@ function NavBar() {
           <img
             src="https://drive.google.com/uc?id=1NJrgM8zoisyIYc_hE66zxhEEOA4Po76h"
             className="h-10"
-            alt="Chatlabs Logo"
+            alt="QuestQuillAI Logo"
           />
           <span className="self-center text-2xl font-semibold text-white">
-            <span className="text-violet-500">Chat</span> Labs
+            <span className="text-violet-500">Quest</span>Quill
+            <span className="text-violet-500">AI</span>
           </span>
         </Link>
 

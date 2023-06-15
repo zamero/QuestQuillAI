@@ -15,7 +15,7 @@ const user1 = User.find("email")
 // const char1 = user1.Characters[1]
 
 const mongoose = require("mongoose");
-const dbURI = "mongodb+srv://chatlabsTeam:nospamarenointhechaterino@charlabs.icuqwds.mongodb.net/Chatlabs";
+const dbURI = "mongodb+srv://QuestQuill2023:qep3wM5SyvLuSgCt@questquill.cqujpvr.mongodb.net/";
 // connect to database
 mongoose.connect(dbURI, { useNewUrlParser: true });
 const db = mongoose.connection;
@@ -42,10 +42,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.put("/create/:id", async (req, res) => {
   try {
-    const { name, backstory, traits } = req.body;
+    const { name, backstory, traits, voice } = req.body;
     const user = await User.updateOne(
       { _id: req.params.id },
-      { $push: { Characters: { name, backstory, traits } } }
+      { $push: { Characters: { name, backstory, traits, voice } } }
     );
     if (user.nModified === 0) {
       throw new Error("User not found");
@@ -152,7 +152,7 @@ app.post('/prompt/:id/:index', async (req, res) => {
     const apiData = response.data.choices[0].message.content;
 
     const voiceResponse = await axios.post(
-      'https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM?optimize_streaming_latency=0',
+      `https://api.elevenlabs.io/v1/text-to-speech/${character.voice}?optimize_streaming_latency=0`,
       {
         "text": `${apiData}`,
         "model_id": "eleven_monolingual_v1",

@@ -6,6 +6,7 @@ import CharacterForm, { CharacterFormData } from "../components/CharacterForm"
 const Dashboard2: React.FC = () => {
   const [response, setResponse] = useState("")
   const [name, setName] = useState("")
+  const [voice, setVoice] = useState("")
   const [backstory, setBackstory] = useState("")
   const [traits, setTraits] = useState("")
 
@@ -13,11 +14,9 @@ const Dashboard2: React.FC = () => {
 
   const handleSubmit = async (formData: CharacterFormData): Promise<void> => {
     try {
-      const { name, backstory, traits } = formData
+      const { name, backstory, traits, voice } = formData
       const response = await fetch(
-        `https://chatlabs.up.railway.app/create/${localStorage.getItem(
-          "userId"
-        )}`,
+        `http://localhost:4000/create/${localStorage.getItem("userId")}`,
         {
           method: "PUT",
           headers: {
@@ -27,6 +26,7 @@ const Dashboard2: React.FC = () => {
             name,
             backstory,
             traits,
+            voice,
           }),
         }
       )
@@ -37,6 +37,7 @@ const Dashboard2: React.FC = () => {
       setName("")
       setBackstory("")
       setTraits("")
+      setVoice("")
 
       navigate("/dashboard")
     } catch (error) {
@@ -49,6 +50,12 @@ const Dashboard2: React.FC = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setName(event.target.value)
+  }
+
+  const handleVoiceChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ): void => {
+    setVoice(event.target.value)
   }
 
   const handleBackstoryChange = (
@@ -72,6 +79,8 @@ const Dashboard2: React.FC = () => {
             name={name}
             backstory={backstory}
             traits={traits}
+            voice={voice}
+            onVoiceChange={handleVoiceChange}
             onNameChange={handleNameChange}
             onBackstoryChange={handleBackstoryChange}
             onTraitsChange={handleTraitsChange}

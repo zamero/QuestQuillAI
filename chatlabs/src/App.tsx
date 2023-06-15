@@ -1,12 +1,14 @@
-import Lottie from "react-lottie-player";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import lottieJson from "../src/assets/lottie.json";
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import Steps from "./components/Steps";
-import DashBoard2 from "./pages/db-2";
-import DashBoard4 from "./pages/db-4";
-import Dashboard from "./pages/Dashboard";
+import Lottie from "react-lottie-player"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import lottieJson from "../src/assets/lottie.json"
+import NavBar from "./components/NavBar"
+import Footer from "./components/Footer"
+import Steps from "./components/Steps"
+import DashBoard2 from "./pages/db-2"
+import DashBoard4 from "./pages/db-4"
+import Dashboard from "./pages/Dashboard"
+import CharacterForm, { CharacterFormData } from "./components/CharacterForm"
+import { ChangeEvent } from "react"
 
 function App() {
   return (
@@ -22,7 +24,7 @@ function App() {
         </Routes>
       </div>
     </Router>
-  );
+  )
 }
 
 function NotFound() {
@@ -30,7 +32,7 @@ function NotFound() {
     <section className="flex justify-center font-bold text-violet-500">
       <h1>404 - Page Not Found</h1>
     </section>
-  );
+  )
 }
 
 function Home() {
@@ -40,8 +42,8 @@ function Home() {
         <div className="w-full h-full md:max-w-2xl">
           <section className="flex flex-row justify-center my-20 md:flex-row">
             <div className="flex flex-col justify-center mr-32">
-              <h1 className="text-6xl font-light uppercase text-slate-100">
-                <span className="text-violet-500">Chat</span> Labs
+              <h1 className="text-5xl font-light uppercase text-slate-100">
+                <span className="text-violet-500">Quest</span>Quill
               </h1>
               <p className="my-2 text-2xl font-semibold uppercase text-slate-100">
                 Creating characters <br /> that come to{" "}
@@ -96,8 +98,8 @@ function Home() {
                 <p className="px-5 text-slate-100 text-md md:px-0">
                   Gone are the days of static and scripted{" "}
                   <span className="text-violet-500">NPC responses</span>. With
-                  Chat Labs, you'll experience a new level of interaction that's
-                  tailored to your every move. Our system listens to the{" "}
+                  QuestQuillAI, you'll experience a new level of interaction
+                  that's tailored to your every move. Our system listens to the{" "}
                   <span className="text-violet-500">players dialogue</span> and
                   responds in <span className="text-violet-500">real-time</span>{" "}
                   with{" "}
@@ -134,12 +136,12 @@ function Home() {
                   <div className="order-1 w-1 ml-5 bg-violet-500"></div>
                   <h2 className="py-3 mx-auto text-xl font-semibold text-slate-100 md:mx-0">
                     Inclusive Gaming with{" "}
-                    <span className="text-violet-500">Chat Labs</span>
+                    <span className="text-violet-500">QuestQuillAI</span>
                   </h2>
                 </div>
                 <p className="px-5 text-slate-100 text-md md:px-0">
-                  With <span className="text-violet-500">Chat Labs</span>, you
-                  can create more{" "}
+                  With <span className="text-violet-500">QuestQuillAI</span>,
+                  you can create more{" "}
                   <span className="text-violet-500">inclusive and diverse</span>{" "}
                   gaming experiences. Our AI generates responses in multiple
                   languages and accents, welcoming players from all over the
@@ -149,9 +151,9 @@ function Home() {
                     representative and inviting
                   </span>
                   . By incorporating{" "}
-                  <span className="text-violet-500">Chat Labs</span> into your
-                  game development, you're not just creating a more immersive
-                  gaming experience, but also a more{" "}
+                  <span className="text-violet-500">QuestQuillAI</span> into
+                  your game development, you're not just creating a more
+                  immersive gaming experience, but also a more{" "}
                   <span className="text-violet-500">inclusive</span> one.
                 </p>
               </div>
@@ -162,7 +164,7 @@ function Home() {
       <Steps />
       <Footer />
     </>
-  );
+  )
 }
 
-export default App;
+export default App
