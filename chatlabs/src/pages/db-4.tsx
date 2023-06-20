@@ -1,32 +1,32 @@
-import { useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useState } from "react"
+import { useParams, useLocation, useNavigate } from "react-router-dom"
+import axios from "axios"
 import {
   TrashIcon,
   PencilIcon,
   ArrowLeftIcon,
   ExclamationCircleIcon,
-} from "@heroicons/react/24/solid";
-import ChatPrompt from "../components/ChatPrompt";
-import FormModal from "./FormModal";
+} from "@heroicons/react/24/solid"
+import ChatPrompt from "../components/ChatPrompt"
+import FormModal from "./FormModal"
 
 function DashBoard4() {
   const handleGoBack = () => {
-    navigate("/dashboard");
-  };
-  const navigate = useNavigate();
-  const { id } = useParams();
+    navigate("/dashboard")
+  }
+  const navigate = useNavigate()
+  const { id } = useParams()
   const [character, setCharacter] = useState<{
-    name: string;
-    traits: string;
-    backstory: string;
-    voice: string;
-  } | null>(null);
-  const location = useLocation();
-  const [showForm, setShowForm] = useState(false);
-  const [showChat, setShowChat] = useState(false);
+    name: string
+    traits: string
+    backstory: string
+    voice: string
+  } | null>(null)
+  const location = useLocation()
+  const [showForm, setShowForm] = useState(false)
+  const [showChat, setShowChat] = useState(false)
 
-  const voices = {
+  const voices: { [key: string]: string } = {
     Rachel: "21m00Tcm4TlvDq8ikWAM",
     Domi: "AZnzlk1XvdvUeBnXmlld",
     Bella: "EXAVITQu4vr4xnSDxMaL",
@@ -36,59 +36,59 @@ function DashBoard4() {
     Arnold: "VR6AewLTigWG4xSOukaG",
     Adam: "pNInz6obpgDQGcFmaJgB",
     Sam: "yoZ06aMxZJJ28mfd3POQ",
-  };
+  }
 
-  const checkValue = (value) => {
+  const checkValue = (value: string) => {
     for (const key in voices) {
       if (voices[key] === value) {
-        return key;
+        return key
       }
     }
-    return "No matching key found";
-  };
+    return "No matching key found"
+  }
 
-  const inputValue = character?.voice; // Use optional chaining to access the voice property
-  const correspondingKey = inputValue ? checkValue(inputValue) : null; // Check if inputValue exists before calling checkValue
+  const inputValue = character?.voice // Use optional chaining to access the voice property
+  const correspondingKey = inputValue ? checkValue(inputValue) : null // Check if inputValue exists before calling checkValue
 
-  console.log(correspondingKey);
+  console.log(correspondingKey)
   // Output: Sam
 
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-        console.log(`Fetching character with: `);
+        console.log(`Fetching character with: `)
         const response = await axios.get(
           `http://localhost:4000/getone/${localStorage.getItem("userId")}/${
             location.state.index
           }`
-        );
-        console.log("Response:", response.data.character);
-        console.log(response.data);
-        setCharacter(response.data.character);
+        )
+        console.log("Response:", response.data.character)
+        console.log(response.data)
+        setCharacter(response.data.character)
       } catch (error: any) {
         if (error.response && error.response.status === 404) {
-          console.log("Character not found");
+          console.log("Character not found")
         } else {
-          console.log("An error occurred:", error);
+          console.log("An error occurred:", error)
         }
       }
-    };
+    }
 
-    fetchCharacter();
-  }, [id, location.state.index]);
+    fetchCharacter()
+  }, [id, location.state.index])
 
   const deleteCharacter = async (index: number) => {
     const response = await fetch(
       `http://localhost:4000/delete/${localStorage.getItem("userId")}/${index}`,
       { method: "delete" }
-    );
-    const res = await response.json();
-    console.log(res);
-    navigate("/dashboard");
-  };
+    )
+    const res = await response.json()
+    console.log(res)
+    navigate("/dashboard")
+  }
 
   if (!character) {
-    return <div className="text-violet-500">Loading...</div>;
+    return <div className="text-violet-500">Loading...</div>
   }
   return (
     <>
@@ -213,7 +213,7 @@ function DashBoard4() {
         )}
       </div>
     </>
-  );
+  )
 }
 
-export default DashBoard4;
+export default DashBoard4
