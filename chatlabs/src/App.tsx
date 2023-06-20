@@ -7,8 +7,6 @@ import Steps from "./components/Steps"
 import DashBoard2 from "./pages/db-2"
 import DashBoard4 from "./pages/db-4"
 import Dashboard from "./pages/Dashboard"
-import CharacterForm, { CharacterFormData } from "./components/CharacterForm"
-import { ChangeEvent } from "react"
 
 function App() {
   return (
