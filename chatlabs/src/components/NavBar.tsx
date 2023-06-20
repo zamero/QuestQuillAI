@@ -17,13 +17,16 @@ function NavBar() {
   }
 
   async function AddEmailToDB(data: any, subData: any) {
-    const response = await fetch("http://localhost:4000/createuser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: data, sub: subData }),
-    })
+    const response = await fetch(
+      "https://questquillai-production.up.railway.app/createuser",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: data, sub: subData }),
+      }
+    )
     return response.json()
   }
 
@@ -31,12 +34,15 @@ function NavBar() {
     let data
 
     try {
-      const response = await fetch(`http://localhost:4000/getid/${sub}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      const response = await fetch(
+        `https://questquillai-production.up.railway.app/getid/${sub}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
 
       data = await response.json()
     } catch (error) {

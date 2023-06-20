@@ -1,51 +1,53 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function FormModal({
   closeFormModal,
   data,
 }: {
-  closeFormModal: (arg0: boolean) => void;
-  data: number;
+  closeFormModal: (arg0: boolean) => void
+  data: number
 }) {
-  console.log(data);
+  console.log(data)
 
   const [initialForm, setInitialForm] = useState({
     name: "",
     backstory: "",
     traits: "",
     voice: "",
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  })
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   function handleFormChange(
     event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) {
-    setInitialForm({ ...initialForm, [event.target.id]: event.target.value });
+    setInitialForm({ ...initialForm, [event.target.id]: event.target.value })
 
     if (event.target.id === "backstory") {
-      updateBackstoryCount(event.target.value);
+      updateBackstoryCount(event.target.value)
     }
   }
 
   function validateTraits(traits: string): boolean {
-    const trimmedTraits = traits.trim();
-    const traitsArray = trimmedTraits.split(",").map((trait) => trait.trim());
-    return traitsArray.every((trait) => trait !== "" && !trait.includes(" "));
+    const trimmedTraits = traits.trim()
+    const traitsArray = trimmedTraits.split(",").map((trait) => trait.trim())
+    return traitsArray.every((trait) => trait !== "" && !trait.includes(" "))
   }
 
   async function updateCharacter(index: number) {
-    const isValidTraits = validateTraits(initialForm.traits);
+    const isValidTraits = validateTraits(initialForm.traits)
 
     if (!isValidTraits) {
-      setIsSubmitted(true);
-      return;
+      setIsSubmitted(true)
+      return
     }
 
     await fetch(
-      `http://localhost:4000/edit/${localStorage.getItem("userId")}/${index}`,
+      `https://questquillai-production.up.railway.app/edit/${localStorage.getItem(
+        "userId"
+      )}/${index}`,
       {
         method: "PUT",
         headers: {
@@ -58,21 +60,21 @@ function FormModal({
           traits: initialForm.traits,
         }),
       }
-    );
-    navigate("/dashboard");
+    )
+    navigate("/dashboard")
   }
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const [backstoryCount, setBackstoryCount] = useState(
     3000 - initialForm.backstory.length
-  );
+  )
 
   const updateBackstoryCount = (value: string): void => {
-    const remainingCharacters = 3000 - value.length;
-    setBackstoryCount(remainingCharacters);
-  };
-  console.log(handleFormChange);
+    const remainingCharacters = 3000 - value.length
+    setBackstoryCount(remainingCharacters)
+  }
+  console.log(handleFormChange)
   return (
     <div className="fixed inset-0 z-10 bg-neutral-950 bg-opacity-25 backdrop-blur-sm">
       <div className="flex justify-center mt-14">
@@ -187,7 +189,7 @@ function FormModal({
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default FormModal;
+export default FormModal

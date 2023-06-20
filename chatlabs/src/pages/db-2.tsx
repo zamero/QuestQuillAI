@@ -16,7 +16,9 @@ const Dashboard2: React.FC = () => {
     try {
       const { name, backstory, traits, voice } = formData
       const response = await fetch(
-        `http://localhost:4000/create/${localStorage.getItem("userId")}`,
+        `https://questquillai-production.up.railway.app/create/${localStorage.getItem(
+          "userId"
+        )}`,
         {
           method: "PUT",
           headers: {
