@@ -97,7 +97,7 @@ function DashBoard4() {
       {/* modal */}
       {showChat && (
         <div className="fixed inset-0 flex items-center justify-center bg-neutral-950/75">
-          <div className="bg-neutral-800 rounded-lg w-2/3 h-4/6 max-h overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-violet-800 scrollbar-track-neutral-800 flex flex-col">
+          <div className="bg-neutral-800 rounded-lg w-full sm:w-2/3 h-4/6 max-h overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-violet-800 scrollbar-track-neutral-800 flex flex-col">
             <button
               className="self-end p-2 text-violet-600 hover:text-violet-400 fixed z-10"
               onClick={() => setShowChat(!showChat)}
