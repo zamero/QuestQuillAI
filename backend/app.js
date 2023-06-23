@@ -208,7 +208,10 @@ app.get("/getid/:sub/", async (req, res) => {
     const user = await User.findOne({ sub: sub });
 
     if (!user) {
-      throw new Error("User not found");
+      res.status(404).json({
+        message: "User not found",
+      });
+      return;
     }
 
     const userId = user._id;

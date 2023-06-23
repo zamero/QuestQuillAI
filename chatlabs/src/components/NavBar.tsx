@@ -45,6 +45,7 @@ function NavBar() {
       )
 
       data = await response.json()
+      console.log(data)
     } catch (error) {
       console.log(error)
     }
@@ -52,7 +53,6 @@ function NavBar() {
     if (data && data.userId) {
       setuserId(data.userId)
       localStorage.setItem("userId", data.userId)
-      setuserId(data.userId)
     }
   }
 
@@ -68,15 +68,17 @@ function NavBar() {
           }
         )
         console.log(info)
-        AddEmailToDB(info.data.email, info.data.sub)
-        getUserId(info.data.sub)
+
+        await AddEmailToDB(info.data.email, info.data.sub)
+        await getUserId(info.data.sub)
+
         localStorage.setItem("avatar", info.data.picture)
         localStorage.setItem("email", info.data.email)
         localStorage.setItem("name", info.data.given_name)
+        setuserId(localStorage.getItem("userId"))
         setuserAvatar(localStorage.getItem("avatar"))
         setuserEmail(localStorage.getItem("email"))
         setuserName(localStorage.getItem("name"))
-        setuserId(localStorage.getItem("userId"))
       } catch (err) {
         console.log(err)
       }
