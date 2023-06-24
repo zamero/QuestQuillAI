@@ -92,6 +92,7 @@ function DashBoard4() {
   if (!character) {
     return <div className="text-violet-500">Loading...</div>
   }
+  console.log("this" + character)
   return (
     <>
       {/* modal */}
@@ -211,7 +212,11 @@ function DashBoard4() {
           </div>
         </div>
         {showForm && (
-          <FormModal data={location.state.index} closeFormModal={setShowForm} />
+          <FormModal
+            character={character}
+            data={location.state.index}
+            closeFormModal={setShowForm}
+          />
         )}
       </div>
     </>

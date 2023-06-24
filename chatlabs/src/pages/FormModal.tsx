@@ -4,17 +4,19 @@ import { useNavigate } from "react-router-dom"
 function FormModal({
   closeFormModal,
   data,
+  character,
 }: {
   closeFormModal: (arg0: boolean) => void
   data: number
+  character: any
 }) {
   console.log(data)
 
   const [initialForm, setInitialForm] = useState({
-    name: "",
-    backstory: "",
-    traits: "",
-    voice: "",
+    name: character.name,
+    backstory: character.backstory,
+    traits: character.traits,
+    voice: character.voice,
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
 
@@ -74,7 +76,6 @@ function FormModal({
     const remainingCharacters = 3000 - value.length
     setBackstoryCount(remainingCharacters)
   }
-  console.log(handleFormChange)
   return (
     <div className="fixed inset-0 z-10 bg-neutral-950 bg-opacity-25 backdrop-blur-sm">
       <div className="flex justify-center mt-14">
@@ -97,6 +98,7 @@ function FormModal({
                 className="bg-neutral-800 shadow appearance-none rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 placeholder=""
+                defaultValue={character.name}
                 required
               />
             </div>
@@ -113,6 +115,7 @@ function FormModal({
                 name="voice"
                 id="voice"
                 onChange={handleFormChange}
+                defaultValue={character.voice}
               >
                 <option value="21m00Tcm4TlvDq8ikWAM">Rachel</option>
                 <option value="AZnzlk1XvdvUeBnXmlld">Domi</option>
@@ -138,6 +141,7 @@ function FormModal({
                 id="backstory"
                 className="bg-neutral-800 h-52 shadow appearance-none rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder=""
+                defaultValue={character.backstory}
                 required
                 maxLength={3000}
               ></textarea>
@@ -159,6 +163,7 @@ function FormModal({
                 Traits
               </label>
               <input
+                defaultValue={character.traits}
                 onChange={handleFormChange}
                 id="traits"
                 className="bg-neutral-800 shadow appearance-none rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:shadow-outline"
