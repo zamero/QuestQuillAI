@@ -19,7 +19,8 @@
     "fs": "^0.0.1-security",
     "mongodb": "^5.4.0",
     "mongoose": "^7.1.1",
-    "node-fetch": "^3.3.1"
+    "node-fetch": "^3.3.1",
+    "stripe": "^12.10.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
