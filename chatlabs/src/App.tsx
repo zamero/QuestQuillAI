@@ -161,6 +161,7 @@ function Home() {
           </div>
         </section>
       </section>
+      <Stripe />
       <Steps />
       <Footer />
     </>

@@ -47,7 +47,7 @@ function FormModal({
     }
 
     await fetch(
-      `https://questquillai-production.up.railway.app/edit/${localStorage.getItem(
+      `${import.meta.env.VITE_URI}edit/${localStorage.getItem(
         "userId"
       )}/${index}`,
       {

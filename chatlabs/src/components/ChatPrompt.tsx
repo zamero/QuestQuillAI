@@ -33,7 +33,7 @@ function ChatPrompt({ index }: { index: number }) {
 
     try {
       const response = await axios.post(
-        `https://questquillai-production.up.railway.app/prompt/${localStorage.getItem(
+        `${import.meta.env.VITE_URI}prompt/${localStorage.getItem(
           "userId"
         )}/${index}`,
         {

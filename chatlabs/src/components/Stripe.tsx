@@ -1,9 +1,6 @@
-import { Link } from "react-router-dom"
-import { useState, useEffect } from "react"
-
 function Stripe() {
   const stripeOnClick = () => {
-    fetch("http://localhost:4000/create-checkout-session", {
+    fetch(`${import.meta.env.VITE_URI}create-checkout-session`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -13,6 +10,7 @@ function Stripe() {
           { id: 1, quantity: 1 },
           { id: 2, quantity: 1 },
         ],
+        email: localStorage.getItem("email"),
       }),
     })
       .then(async (res) => {
@@ -27,6 +25,7 @@ function Stripe() {
         console.error(e.error)
       })
   }
+
   return (
     <>
       <div className="flex items-center justify-center h-screen">
@@ -71,7 +70,6 @@ function Stripe() {
           </div>
         </div>
       </div>
-
       <button
         onClick={stripeOnClick}
         className="text-white flex items-center bg-violet-700 hover:bg-violet-600 rounded ml-3 p-1.5"
