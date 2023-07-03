@@ -66,8 +66,8 @@ app.post("/create-checkout-session", async (req, res) =>{
           quantity: item.quantity
         }
       }) ,
-      success_url:`https://questquillai.netlify.app/`,
-      cancel_url:`https://questquillai.netlify.app/`
+      success_url:`http://localhost:5173/`,
+      cancel_url:`http://localhost:5173/`
     })
     res.json({ url: session.url})
   } catch (e) {
