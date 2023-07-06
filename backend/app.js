@@ -15,7 +15,8 @@ const user1 = User.find("email")
 // const char1 = user1.Characters[1]
 
 const mongoose = require("mongoose");
-const dbURI = "mongodb+srv://QuestQuill2023:qep3wM5SyvLuSgCt@questquill.cqujpvr.mongodb.net/";
+
+const dbURI = process.env.SERVER_URI;
 // connect to database
 mongoose.connect(dbURI, { useNewUrlParser: true });
 const db = mongoose.connection;
