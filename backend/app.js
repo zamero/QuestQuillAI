@@ -45,13 +45,13 @@ const storeItems = new Map([
   [2, { priceInCents: 50000, name: "Tier 2"}],
 ])
 
-app.post("/create-checkout-session", async (req, res) =>{
+app.post("/create-checkout-session", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "subscription",
-      line_items: req.body.items.map(item => {
-        const storeItem = storeItems.get(item.id)
+      line_items: req.body.items.map((item) => {
+        const storeItem = storeItems.get(item.id);
         return {
           price_data: {
             currency: "usd",
@@ -59,22 +59,24 @@ app.post("/create-checkout-session", async (req, res) =>{
               interval: "month",
             },
             product_data: {
-              name: storeItem.name
+              name: storeItem.name,
             },
-            unit_amount: storeItem.priceInCents
+            unit_amount: storeItem.priceInCents,
           },
-          quantity: item.quantity
-        }
-      }) ,
-      success_url:`http://localhost:5173/`,
-      cancel_url:`http://localhost:5173/`
-    })
-    res.json({ url: session.url})
+          quantity: item.quantity,
+        };
+      }),
+      success_url: "http://localhost:5173/success",
+      cancel_url: "http://localhost:5173/cancel",
+      customer_email: req.body.email || "example@example.com", // Set default email if not provided
+    });
+
+    res.json({ url: session.url });
   } catch (e) {
-    res.status(500).json({error: e.message})
+    res.status(500).json({ error: e.message });
   }
-  
-})
+});
+
 
 app.put("/create/:id", async (req, res) => {
   try {
@@ -271,7 +273,7 @@ app.post("/createuser", async (req, res) => {
     return;
   }
 
-  const { email, sub } = req.body;
+  const { email, sub, subscription } = req.body;
 
   // Check if the email already exists
   const existingUser = await User.findOne({ email });
