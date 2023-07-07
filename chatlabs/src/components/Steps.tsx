@@ -126,7 +126,7 @@ function Steps() {
             {steps[activeStep].text}{" "}
           </h2>
           <img
-            className="w-96 rounded-xl"
+            className="w-96 rounded-xl aspect-video"
             src={steps[activeStep].image}
             alt=""
           />

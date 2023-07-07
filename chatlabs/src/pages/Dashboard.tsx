@@ -7,7 +7,7 @@ function Dashboard() {
 
   const deleteCharacter = async (index: number) => {
     const response = await fetch(
-      `https://questquillai-production.up.railway.app/delete/${localStorage.getItem(
+      `${import.meta.env.VITE_URI}delete/${localStorage.getItem(
         "userId"
       )}/${index}`,
       { method: "delete" }
@@ -21,9 +21,7 @@ function Dashboard() {
 
   useEffect(() => {
     fetch(
-      `https://questquillai-production.up.railway.app/characters/${localStorage.getItem(
-        "userId"
-      )}`
+      `${import.meta.env.VITE_URI}characters/${localStorage.getItem("userId")}`
     )
       .then((res) => res.json())
       .then((data) => {

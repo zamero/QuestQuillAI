@@ -7,6 +7,7 @@ import Steps from "./components/Steps"
 import DashBoard2 from "./pages/db-2"
 import DashBoard4 from "./pages/db-4"
 import Dashboard from "./pages/Dashboard"
+import Stripe from "./components/Stripe"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/create" element={<DashBoard2 />} />
           <Route path="/character" element={<DashBoard4 />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/Payment" element={<Stripe />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
@@ -159,6 +161,7 @@ function Home() {
           </div>
         </section>
       </section>
+      <Stripe />
       <Steps />
       <Footer />
     </>

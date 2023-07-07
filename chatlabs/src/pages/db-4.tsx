@@ -58,7 +58,7 @@ function DashBoard4() {
       try {
         console.log(`Fetching character with: `)
         const response = await axios.get(
-          `https://questquillai-production.up.railway.app/getone/${localStorage.getItem(
+          `${import.meta.env.VITE_URI}getone/${localStorage.getItem(
             "userId"
           )}/${location.state.index}`
         )
@@ -79,7 +79,7 @@ function DashBoard4() {
 
   const deleteCharacter = async (index: number) => {
     const response = await fetch(
-      `https://questquillai-production.up.railway.app/delete/${localStorage.getItem(
+      `${import.meta.env.VITE_URI}delete/${localStorage.getItem(
         "userId"
       )}/${index}`,
       { method: "delete" }

@@ -9,6 +9,11 @@ const usersSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    subscription: {
+        default: 'Trial',
+        type: String,
+        required: false
+    },
     Characters: [
         {   
             name: {
