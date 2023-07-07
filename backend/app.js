@@ -34,7 +34,7 @@ const PORT = 4000;
 
 // cors är bra så att vi kan ha server och client isär
 app.use(cors(
-  { origin: ["*"],
+  { origin: "*",
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true
   }
