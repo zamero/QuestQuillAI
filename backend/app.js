@@ -34,7 +34,7 @@ const PORT = 4000;
 // const PORT = process.env.PORT || 4000;
 
 // cors är bra så att vi kan ha server och client isär
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "https://quest-quill-ai.vercel.app/" }));
 // parse json objects
 app.use(express.json());
 // parse url encoded objects- data sent through the url
