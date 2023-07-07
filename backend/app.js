@@ -163,7 +163,7 @@ app.post('/prompt/:id/:index', async (req, res) => {
 
     const character = user.Characters[index];
 
-    let gptPrompt = `I'm going to give you a character in a video game and I want you to answer the player as if you are the character. Here are the specifics for the character. Personality trait for the character={${character.traits}}. Name = {${character.name}}. Backstory={${character.backstory}} The player asks the following={${ask}} Just answer in first person as ${character.name} and do not give any actions as an answer, also do not describe what it does only quotes. Answer in dialogues. and do not give me the characters name at the beginning like this for example= Name: {answer} just give me the {answer} in quotes. Also do not answer with player: {what the player said} name: {answer}. Just give me what the character says in quotes {"answer"} `
+    let gptPrompt = `I'm going to give you a character in a video game and I want you to answer the player as if you are the character. Here are the specifics for the character. Personality trait for the character={${character.traits}}. Name = {${character.name}}. Backstory={${character.backstory}} The player asks the following={${ask}} Just answer in first person as ${character.name} and do not give any actions as an answer, also do not describe what it does only quotes. Answer in dialogues. and do not give me the characters name at the beginning like this for example= Name: {answer} just give me the {answer} in quotes. Also do not answer with player: {what the player said} name: {answer}. Just give me what the character says in quotes {"answer"}. Your answer should be just in quotes `
     // console.log(character.name)
     // console.log(character.backstory)
     // console.log(character.traits)
@@ -173,7 +173,7 @@ app.post('/prompt/:id/:index', async (req, res) => {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        "model": "gpt-3.5-turbo",
+        "model": "gpt-4",
         "messages": [
           {
             "role": "user",
