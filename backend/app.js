@@ -41,32 +41,37 @@ const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 const endpointSecret = "whsec_iUtD3Ql0uBYTySmTUFlBRPWW5IM2wiBq";
 
-app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
-  const sig = request.headers['stripe-signature'];
+app.post(
+  '/webhook',
+  express.raw({ type: 'application/json' }),
+  (request, response) => {
+    const sig = request.headers['stripe-signature'];
+    const body = request.body.toString(); // Convert the request body to a string
 
-  let event;
+    let event;
 
-  try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-  } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
-    return;
+    try {
+      event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
+    } catch (err) {
+      response.status(400).send(`Webhook Error: ${err.message}`);
+      return;
+    }
+
+    // Handle the event
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        const email = event.data.object.receipt_email;
+        console.log(`PaymentIntent was successful for ${email}!`);
+        break;
+      // ... handle other event types
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
+
+    // Return a 200 response to acknowledge receipt of the event
+    response.send();
   }
-
-  // Handle the event
-  switch (event.type) {
-    case 'payment_intent.succeeded':
-      const email = event['data']['object']['receipt_email'] // contains the email that will recive the recipt for the payment (users email usually)
-      console.log(`PaymentIntent was successful for ${email}!`)
-      break;
-    // ... handle other event types
-    default:
-      console.log(`Unhandled event type ${event.type}`);
-  }
-
-  // Return a 200 response to acknowledge receipt of the event
-  response.send();
-});
+);
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
