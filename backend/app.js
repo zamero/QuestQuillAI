@@ -56,8 +56,8 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
   // Handle the event
   switch (event.type) {
     case 'payment_intent.succeeded':
-      const paymentIntentSucceeded = event.data.object;
-      // Then define and call a function to handle the event payment_intent.succeeded
+      const email = event['data']['object']['receipt_email'] // contains the email that will recive the recipt for the payment (users email usually)
+      console.log(`PaymentIntent was successful for ${email}!`)
       break;
     // ... handle other event types
     default:
