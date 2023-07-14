@@ -41,12 +41,14 @@ const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 const endpointSecret = "whsec_iUtD3Ql0uBYTySmTUFlBRPWW5IM2wiBq";
 
+// ... other code
+
 app.post(
   '/webhook',
   express.raw({ type: 'application/json' }),
   (request, response) => {
     const sig = request.headers['stripe-signature'];
-    const body = request.body.toString(); // Convert the request body to a string
+    const body = request.body; // Use the raw request body directly
 
     let event;
 
@@ -72,6 +74,9 @@ app.post(
     response.send();
   }
 );
+
+// ... other code
+
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
