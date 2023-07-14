@@ -34,8 +34,15 @@ app.use(cors(
   ));
 // parse json objects
 // parse url encoded objects- data sent through the url
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+
+app.use((req, res, next) => {
+  if (req.originalUrl === '/webhook') {
+    next(); // Do nothing with the body because I need it in a raw state.
+  } else {
+    express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+    express.urlencoded({ extended: true })
+  }
+});
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
