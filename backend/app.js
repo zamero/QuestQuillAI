@@ -15,6 +15,8 @@ const user1 = User.find("email")
 
 const mongoose = require("mongoose");
 
+const bodyParser = require('body-parser');
+
 const dbURI = process.env.SERVER_URI;
 // connect to database
 mongoose.connect(dbURI, { useNewUrlParser: true });
@@ -45,6 +47,32 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
+
+app.post('/webhooks', (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+  }
+  catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded': {
+      const email = event['data']['object']['receipt_email'] // contains the email that will recive the recipt for the payment (users email usually)
+      console.log(`PaymentIntent was successful for ${email}!`)
+      break;
+    }
+    default:
+      // Unexpected event type
+      return res.status(400).end();
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  res.json({received: true});
+})
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
