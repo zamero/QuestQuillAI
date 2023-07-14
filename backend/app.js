@@ -38,15 +38,14 @@ const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 const endpointSecret = "whsec_898f78552891f79bd75e82fa9962d61317d212ce6e2209c3d43bc85c3d549261";
 
-app.use(express.urlencoded({ extended: true }));
-
 app.use((req, res, next) => {
   if (req.originalUrl === '/webhook') {
-    next(); // Do nothing with the body because I need it in a raw state.
-  } else {
-    express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+      next();
+  } else { 
+      express.json()(req, res, next);
   }
 });
+app.use(express.urlencoded({extended: true}));
 
 
 app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
