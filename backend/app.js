@@ -34,8 +34,6 @@ app.use(cors(
   ));
 // parse json objects
 // parse url encoded objects- data sent through the url
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
@@ -75,9 +73,6 @@ app.post(
   }
 );
 
-// ... other code
-
-
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
   [2, { priceInCents: 50000, name: "Tier 2"}],
@@ -115,6 +110,8 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.put("/create/:id", async (req, res) => {
   try {
