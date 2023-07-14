@@ -25,16 +25,6 @@ db.on("connected", (err, res) => {
 const PORT = 4000;
 // const PORT = process.env.PORT || 4000;
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json({
-  verify: (req, res, buf) => {
-    req.rawBody = buf
-  }
-}))
-
 // cors är bra så att vi kan ha server och client isär
 app.use(cors(
   { origin: "*",
@@ -44,7 +34,15 @@ app.use(cors(
   ));
 // parse json objects
 // parse url encoded objects- data sent through the url
-app.use(express.urlencoded({ extended: true }));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf
+  }
+}))
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
