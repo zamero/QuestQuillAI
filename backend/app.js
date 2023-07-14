@@ -38,43 +38,39 @@ app.use(cors(
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
+app.use(express.urlencoded({extended: false}));
 
-app.use((req, res, next) => {
-  if (req.originalUrl === '/webhook') {
-      next();
-  } else { 
-      express.json()(req, res, next);
+app.use(bodyParser.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf
   }
-});
-app.use(express.urlencoded({extended: true}));
+}))
 
-
-app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
-  const sig = request.headers['stripe-signature'];
-
+app.post('/webhook', (req, res) => {
+  const sig = req.headers['stripe-signature'];
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-  } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
-    return;
+    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
   }
-
+  catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
   // Handle the event
   switch (event.type) {
-    case 'payment_intent.succeeded':
-      const paymentIntentSucceeded = event.data.object;
-      // Then define and call a function to handle the event payment_intent.succeeded
+    case 'payment_intent.succeeded': {
+      const email = event['data']['object']['receipt_email'] // contains the email that will recive the recipt for the payment (users email usually)
+      console.log(`PaymentIntent was successful for ${email}!`)
       break;
-    // ... handle other event types
+    }
     default:
-      console.log(`Unhandled event type ${event.type}`);
+      // Unexpected event type
+      return res.status(400).end();
   }
 
   // Return a 200 response to acknowledge receipt of the event
-  response.send();
-});
+  res.json({received: true});
+})
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
