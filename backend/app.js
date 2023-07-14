@@ -78,6 +78,9 @@ const storeItems = new Map([
   [2, { priceInCents: 50000, name: "Tier 2"}],
 ])
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.post("/create-checkout-session", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
@@ -109,9 +112,6 @@ app.post("/create-checkout-session", async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 app.put("/create/:id", async (req, res) => {
   try {
