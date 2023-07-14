@@ -2,13 +2,11 @@ require("dotenv").config();
 const express = require("express")
 const cors = require("cors")
 const app = express()
-const { create, read} = require("./userCRUD")
+const { create, read } = require("./userCRUD")
 const User = require("./userSchema")
 const axios = require('axios');
 
 const mongoose = require("mongoose");
-
-const endpointSecret = "whsec_coj2JqKPkdMTBQjbW1I7tn1nur8Z7YOk";
 
 const dbURI = process.env.SERVER_URI;
 // connect to database
@@ -22,9 +20,20 @@ db.on("connected", (err, res) => {
   console.log("Connected to database");
 });
 
+
 // create a server-PORT
-const PORT = 4242;
+const PORT = 4000;
 // const PORT = process.env.PORT || 4000;
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf
+  }
+}))
 
 // cors är bra så att vi kan ha server och client isär
 app.use(cors(
@@ -35,18 +44,13 @@ app.use(cors(
   ));
 // parse json objects
 // parse url encoded objects- data sent through the url
+app.use(express.urlencoded({ extended: true }));
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
-app.use(express.urlencoded({extended: true}));
+const endpointSecret = "whsec_coj2JqKPkdMTBQjbW1I7tn1nur8Z7YOk";
 
-app.use(bodyParser.json({
-  verify: (req, res, buf) => {
-    req.rawBody = buf
-  }
-}))
-
-app.post('/webhook', (req, res) => {
+app.post('/webhooks', (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
 
@@ -71,6 +75,8 @@ app.post('/webhook', (req, res) => {
   // Return a 200 response to acknowledge receipt of the event
   res.json({received: true});
 })
+
+app.use(express.json());
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
