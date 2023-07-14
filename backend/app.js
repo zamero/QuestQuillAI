@@ -1,21 +1,12 @@
 require("dotenv").config();
 const express = require("express")
 const cors = require("cors")
-const fs = require("fs")
 const app = express()
-const { create, readAll, read, update, deleteChar } = require("./userCRUD")
+const { create, read} = require("./userCRUD")
 const User = require("./userSchema")
 const axios = require('axios');
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args))
-const bodyparser = require("body-parser")
-
-const user1 = User.find("email")
-// const char1 = user1.Characters[1]
 
 const mongoose = require("mongoose");
-
-const bodyParser = require('body-parser');
 
 const dbURI = process.env.SERVER_URI;
 // connect to database
