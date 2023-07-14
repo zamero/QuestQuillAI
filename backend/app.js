@@ -38,7 +38,7 @@ app.use(cors(
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 
 app.use(bodyParser.json({
   verify: (req, res, buf) => {
