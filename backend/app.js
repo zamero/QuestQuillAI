@@ -8,7 +8,7 @@ const axios = require('axios');
 
 const mongoose = require("mongoose");
 
-const endpointSecret = "whsec_898f78552891f79bd75e82fa9962d61317d212ce6e2209c3d43bc85c3d549261";
+const endpointSecret = "whsec_coj2JqKPkdMTBQjbW1I7tn1nur8Z7YOk";
 
 const dbURI = process.env.SERVER_URI;
 // connect to database
