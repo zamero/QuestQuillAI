@@ -8,6 +8,8 @@ const axios = require('axios');
 
 const mongoose = require("mongoose");
 
+const endpointSecret = "whsec_898f78552891f79bd75e82fa9962d61317d212ce6e2209c3d43bc85c3d549261";
+
 const dbURI = process.env.SERVER_URI;
 // connect to database
 mongoose.connect(dbURI, { useNewUrlParser: true });
@@ -36,7 +38,6 @@ app.use(cors(
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
-const endpointSecret = "whsec_898f78552891f79bd75e82fa9962d61317d212ce6e2209c3d43bc85c3d549261";
 
 app.use((req, res, next) => {
   if (req.originalUrl === '/webhook') {
@@ -48,31 +49,24 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({extended: true}));
 
 
-app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
-  const sig = req.headers['stripe-signature'];
+app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+  const sig = request.headers['stripe-signature'];
+
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
-  }
-  catch (err) {
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-  // Handle the event
-  switch (event.type) {
-    case 'payment_intent.succeeded': {
-      const email = event['data']['object']['receipt_email'] // contains the email that will recive the recipt for the payment (users email usually)
-      console.log(`PaymentIntent was successful for ${email}!`)
-      break;
-    }
-    default:
-      // Unexpected event type
-      return res.status(400).end();
+    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+  } catch (err) {
+    response.status(400).send(`Webhook Error: ${err.message}`);
+    return;
   }
 
+  // Handle the event
+  console.log(`Unhandled event type ${event.type}`);
+
   // Return a 200 response to acknowledge receipt of the event
-  res.json({received: true});
-})
+  response.send();
+});
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
