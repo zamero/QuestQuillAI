@@ -23,7 +23,7 @@ db.on("connected", (err, res) => {
 });
 
 // create a server-PORT
-const PORT = 4000;
+const PORT = 4242;
 // const PORT = process.env.PORT || 4000;
 
 // cors är bra så att vi kan ha server och client isär
@@ -62,7 +62,15 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
   }
 
   // Handle the event
-  console.log(`Unhandled event type ${event.type}`);
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntentSucceeded = event.data.object;
+      // Then define and call a function to handle the event payment_intent.succeeded
+      break;
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
 
   // Return a 200 response to acknowledge receipt of the event
   response.send();
