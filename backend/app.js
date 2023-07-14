@@ -25,6 +25,7 @@ app.use((req, res, next) => {
     next(); // Do nothing with the body because I need it in a raw state.
   } else {
     express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+    app.use(express.urlencoded({ extended: true }));
   }
 });
 
@@ -72,7 +73,6 @@ app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
   // Return a 200 response to acknowledge receipt of the event
   res.json({received: true});
 })
-app.use(express.urlencoded({ extended: true }));
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
