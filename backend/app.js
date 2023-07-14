@@ -34,15 +34,8 @@ app.use(cors(
   ));
 // parse json objects
 // parse url encoded objects- data sent through the url
-
-app.use((req, res, next) => {
-  if (req.originalUrl === '/webhook') {
-    next(); // Do nothing with the body because I need it in a raw state.
-  } else {
-    express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
-    express.urlencoded({ extended: true })(req, res, next)
-  }
-});
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
@@ -74,37 +67,35 @@ app.post('/webhooks', (req, res) => {
   res.json({received: true});
 })
 
+const storeItems = new Map([
+  [1, { priceInCents: 30000, name: "Tier 1"}],
+  [2, { priceInCents: 50000, name: "Tier 2"}],
+])
+
 app.post("/create-checkout-session", async (req, res) => {
   try {
-    const storeItems = new Map([
-      [1, { priceInCents: 30000, name: "Tier 1" }],
-      [2, { priceInCents: 50000, name: "Tier 2" }],
-    ]);
-
-    const lineItems = req.body.items.map((item) => {
-      const storeItem = storeItems.get(item.id);
-      return {
-        price_data: {
-          currency: "usd",
-          recurring: {
-            interval: "month",
-          },
-          product_data: {
-            name: storeItem.name,
-          },
-          unit_amount: storeItem.priceInCents,
-        },
-        quantity: item.quantity,
-      };
-    });
-
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "subscription",
-      line_items: lineItems,
+      line_items: req.body.items.map((item) => {
+        const storeItem = storeItems.get(item.id);
+        return {
+          price_data: {
+            currency: "usd",
+            recurring: {
+              interval: "month",
+            },
+            product_data: {
+              name: storeItem.name,
+            },
+            unit_amount: storeItem.priceInCents,
+          },
+          quantity: item.quantity,
+        };
+      }),
       success_url: "http://localhost:5173/success",
       cancel_url: "http://localhost:5173/cancel",
-      customer_email: req.body.email || "example@example.com",
+      customer_email: req.body.email || "example@example.com", // Set default email if not provided
     });
 
     res.json({ url: session.url });
