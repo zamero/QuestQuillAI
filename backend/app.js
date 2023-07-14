@@ -42,7 +42,6 @@ app.use(cors(
   }
   ));
 // parse json objects
-app.use(express.json());
 // parse url encoded objects- data sent through the url
 app.use(express.urlencoded({ extended: true }));
 
@@ -75,6 +74,8 @@ app.post('/webhook', (req, res) => {
   // Return a 200 response to acknowledge receipt of the event
   res.json({received: true});
 })
+
+app.use(express.json());
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
