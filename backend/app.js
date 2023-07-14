@@ -34,7 +34,6 @@ app.use(cors(
   ));
 // parse json objects
 // parse url encoded objects- data sent through the url
-app.use(express.urlencoded({ extended: true }));
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
@@ -65,7 +64,7 @@ app.post('/webhook', (req, res) => {
   // Return a 200 response to acknowledge receipt of the event
   res.json({received: true});
 })
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const storeItems = new Map([
