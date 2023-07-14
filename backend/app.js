@@ -62,7 +62,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
 
       try {
         const user = await User.findOneAndUpdate(
-          { email: email },
+          { email: "dmcalock@gmail.com" },
           { subscription: 'Tier1' },
           { new: true }
         );
