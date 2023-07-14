@@ -34,15 +34,8 @@ app.use(cors(
   ));
 // parse json objects
 // parse url encoded objects- data sent through the url
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json({
-  verify: (req, res, buf) => {
-    req.rawBody = buf
-  }
-}))
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
@@ -73,8 +66,6 @@ app.post('/webhooks', (req, res) => {
   // Return a 200 response to acknowledge receipt of the event
   res.json({received: true});
 })
-
-app.use(express.json());
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
