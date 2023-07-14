@@ -20,6 +20,14 @@ db.on("connected", (err, res) => {
   console.log("Connected to database");
 });
 
+app.use((req, res, next) => {
+  if (req.originalUrl === '/webhook') {
+    next(); // Do nothing with the body because I need it in a raw state.
+  } else {
+    express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+  }
+});
+
 
 // create a server-PORT
 const PORT = 4000;
@@ -65,7 +73,6 @@ app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
   res.json({received: true});
 })
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
