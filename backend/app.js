@@ -41,37 +41,47 @@ const endpointSecret = "whsec_iUtD3Ql0uBYTySmTUFlBRPWW5IM2wiBq";
 
 // ... other code
 
-app.post(
-  '/webhook',
-  express.raw({ type: 'application/json' }),
-  (request, response) => {
-    const sig = request.headers['stripe-signature'];
-    const body = request.body; // Use the raw request body directly
+app.post('/webhook', express.raw({ type: 'application/json' }), async (request, response) => {
+  const sig = request.headers['stripe-signature'];
+  const body = request.body; // Use the raw request body directly
 
-    let event;
+  let event;
 
-    try {
-      event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
-    } catch (err) {
-      response.status(400).send(`Webhook Error: ${err.message}`);
-      return;
-    }
-
-    // Handle the event
-    switch (event.type) {
-      case 'payment_intent.succeeded':
-        const email = event.data.object.receipt_email;
-        console.log(`PaymentIntent was successful for ${email}!`);
-        break;
-      // ... handle other event types
-      default:
-        console.log(`Unhandled event type ${event.type}`);
-    }
-
-    // Return a 200 response to acknowledge receipt of the event
-    response.send();
+  try {
+    event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
+  } catch (err) {
+    response.status(400).send(`Webhook Error: ${err.message}`);
+    return;
   }
-);
+
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const email = event.data.object.receipt_email;
+      console.log(`PaymentIntent was successful for ${email}!`);
+
+      try {
+        const user = await User.findOneAndUpdate(
+          { email: email },
+          { subscription: 'Tier1' },
+          { new: true }
+        );
+
+        console.log(`User ${user.email} subscription updated to Tier1`);
+      } catch (error) {
+        console.error(`Error updating user subscription: ${error}`);
+      }
+
+      break;
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  response.send();
+});
+
 
 const storeItems = new Map([
   [1, { priceInCents: 30000, name: "Tier 1"}],
