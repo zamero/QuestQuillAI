@@ -16,7 +16,7 @@ function NavBar() {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  async function AddEmailToDB(data: any, subData: any) {
+  async function AddEmailToDB(data: any, subData: any, calls: number) {
     const response = await fetch(`${import.meta.env.VITE_URI}createuser`, {
       method: "POST",
       headers: {
@@ -25,6 +25,7 @@ function NavBar() {
       body: JSON.stringify({
         email: data,
         sub: subData,
+        call: calls,
       }),
     })
     return response.json()
@@ -66,7 +67,7 @@ function NavBar() {
         )
         console.log(info)
 
-        await AddEmailToDB(info.data.email, info.data.sub)
+        await AddEmailToDB(info.data.email, info.data.sub, 0)
         await getUserId(info.data.sub)
 
         localStorage.setItem("avatar", info.data.picture)

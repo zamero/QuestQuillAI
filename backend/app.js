@@ -57,7 +57,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
   // Handle the event
   switch (event.type) {
     case 'payment_intent.succeeded':
-      const email = event.data.object.receipt_email;
+      const email = "samer.essam@chasacademy.se";
       console.log(`PaymentIntent was successful for ${email}!`);
 
       try {
@@ -196,9 +196,27 @@ app.post('/prompt/:id/:index', async (req, res) => {
     const { ask } = req.body; // Assuming the prompt is passed as {"prompt": "Your prompt here"} in the request body
     const user = await User.findOne({ _id: id });
 
+    try {
+      const user = await User.findById(id).select("calls subscription");
+    
+      if (user) {
+        console.log(`User Calls are ${user.calls}`);
+      } else {
+        throw new Error('User not found');
+      }
+    } catch (error) {
+      console.error(`Could not retrieve calls: ${error}`);
+    }
+
     if (!user) {
       throw new Error('User not found');
     }
+    
+    if (user.calls >= 10 && user.subscription === "Trial") {
+      console.log("You exhausted your 10 trial version tries. You need to upgrade to a paid subscription.");
+      return res.status(499).send("Trial exceeded");
+    } else {
+      console.log("coming up")
 
     const character = user.Characters[index];
 
@@ -256,7 +274,19 @@ app.post('/prompt/:id/:index', async (req, res) => {
     const apiVoiceData = voiceResponse.data;
     res.set("Content-Type", "audio/mpeg");
     res.status(200).send(apiVoiceData);
-  } catch (error) {
+    try {
+      await User.findOneAndUpdate(
+        { _id: id },
+        { $inc: { calls: 1 } },
+        { new: true }
+      );
+
+      console.log(`User Calls incremented`);
+    } catch (error) {
+      console.error(`Error Calls not incremented: ${error}`);
+    }
+  } }
+  catch (error) {
     res.status(500).send(
       error.message,
     );
@@ -318,7 +348,7 @@ app.post("/createuser", async (req, res) => {
     return;
   }
 
-  const { email, sub, subscription } = req.body;
+  const { email, sub, call } = req.body;
 
   // Check if the email already exists
   const existingUser = await User.findOne({ email });
@@ -336,7 +366,7 @@ app.post("/createuser", async (req, res) => {
     return;
   }
 
-  const character = await create({ email, sub });
+  const character = await create({ email, sub, call});
 
   if (character.error) {
     res.status(500).json({

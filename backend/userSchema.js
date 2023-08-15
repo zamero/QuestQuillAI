@@ -14,6 +14,11 @@ const usersSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    calls: {
+        default: 0,
+        type: Number,
+        required: true
+    },
     Characters: [
         {   
             name: {

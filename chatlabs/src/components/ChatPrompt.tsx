@@ -1,8 +1,11 @@
 import axios from "axios"
 import { ChangeEvent, useEffect, useState } from "react"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function ChatPrompt({ index }: { index: number }) {
   const [prompt, setPrompt] = useState("")
+  const [isTrialExceeded, setTrialExceeded] = useState(false)
   const [submittedPrompt, setSubmittedPrompt] = useState("")
   const [submittedPromptArray, setSubmittedPromptArray] = useState<
     {
@@ -61,9 +64,20 @@ function ChatPrompt({ index }: { index: number }) {
       setAudioUrl(url)
       setAudioKey(audioKey + 1)
       setIsChatting(false)
-    } catch (err) {
-      console.log(index)
-      setIsChatting(false)
+    } catch (err: any) {
+      if (err.response && err.response.status === 499) {
+        console.log("Trial exceeded")
+        setTrialExceeded(true)
+        toast.error(
+          "Trial exceeded. You need to upgrade to a paid subscription.",
+          {
+            position: toast.POSITION.TOP_RIGHT,
+            className: "custom-toast",
+          }
+        )
+      } else {
+        console.log("Error:", err)
+      }
     }
   }
 
@@ -75,6 +89,7 @@ function ChatPrompt({ index }: { index: number }) {
 
   return (
     <>
+      <ToastContainer />
       <div className="w-full h-full flex flex-col relative justify-between">
         <div>
           {audioUrlArray.map((url, audioIndex) => (
