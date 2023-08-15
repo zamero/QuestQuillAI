@@ -37,7 +37,7 @@ app.use(cors(
 
 const stripe = require ("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
-const endpointSecret = "whsec_iUtD3Ql0uBYTySmTUFlBRPWW5IM2wiBq";
+const endpointSecret = "whsec_sEcjEwfEAMQalKfymcxAxk7pKituRy4e";
 
 // ... other code
 
