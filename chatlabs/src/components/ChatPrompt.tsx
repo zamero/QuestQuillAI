@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css"
 
 function ChatPrompt({ index }: { index: number }) {
   const [prompt, setPrompt] = useState("")
-  const [isTrialExceeded, setTrialExceeded] = useState(false)
   const [submittedPrompt, setSubmittedPrompt] = useState("")
   const [submittedPromptArray, setSubmittedPromptArray] = useState<
     {
@@ -67,7 +66,6 @@ function ChatPrompt({ index }: { index: number }) {
     } catch (err: any) {
       if (err.response && err.response.status === 499) {
         console.log("Trial exceeded")
-        setTrialExceeded(true)
         toast.error(
           "Trial exceeded. You need to upgrade to a paid subscription.",
           {
