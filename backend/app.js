@@ -73,10 +73,10 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
       }
 
       break;
-      case 'customer.source.deleted':
-        const customerSourceDeleted = event.data.object;
-        // Then define and call a function to handle the event customer.source.deleted
-        break;
+      case 'customer.subscription.deleted':
+      const customerSubscriptionDeleted = event.data.object;
+      // Then define and call a function to handle the event customer.subscription.deleted
+      break;
     default:
       console.log(`Unhandled event type ${event.type}`);
   }
