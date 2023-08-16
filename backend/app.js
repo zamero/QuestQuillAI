@@ -60,13 +60,12 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
       const paymentIntentSucceeded = event.data.object
       const customerIdentity = paymentIntentSucceeded.customer
       const email = "samer.essam@chasacademy.se";
-      console.log(`PaymentIntent was successful for ${email}!`);
+      console.log(paymentIntentSucceeded, customerIdentity);
 
       try {
         const user = await User.findOneAndUpdate(
           { email: email },
-          { subscription: 'Tier1' },
-          { stripeCustomer: customerIdentity },
+          { subscription: 'Tier1', stripeCustomer: customerIdentity }, // Corrected update object
           { new: true }
         );
 
