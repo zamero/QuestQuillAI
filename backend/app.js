@@ -81,7 +81,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
       try {
         const user = await User.findOneAndUpdate(
           { stripeCustomer: customerId },
-          { stripeCustomer: null, subscription: 'Trial'},
+          { stripeCustomer: "null", subscription: 'Trial'},
           { new: true}
           )
 
