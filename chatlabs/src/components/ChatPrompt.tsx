@@ -66,6 +66,7 @@ function ChatPrompt({ index }: { index: number }) {
     } catch (err: any) {
       if (err.response && err.response.status === 499) {
         console.log("Trial exceeded")
+        setIsChatting(false)
         toast.error(
           "Trial exceeded. You need to upgrade to a paid subscription.",
           {
@@ -75,6 +76,7 @@ function ChatPrompt({ index }: { index: number }) {
         )
       } else {
         console.log("Error:", err)
+        setIsChatting(false)
       }
     }
   }
