@@ -57,6 +57,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
   // Handle the event
   switch (event.type) {
     case 'payment_intent.succeeded':
+      const paymentIntentSucceeded = event.data.object
       const email = "samer.essam@chasacademy.se";
       console.log(`PaymentIntent was successful for ${email}!`);
 
@@ -64,6 +65,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
         const user = await User.findOneAndUpdate(
           { email: email },
           { subscription: 'Tier1' },
+          { stripeCustomer: paymentIntentSucceeded.customer },
           { new: true }
         );
 
@@ -75,9 +77,28 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
       break;
       case 'customer.subscription.deleted':
       const customerSubscriptionDeleted = event.data.object;
-      console.log(customerSubscriptionDeleted)
-      break;
-    default:
+      const customerId = customerSubscriptionDeleted.customer;
+
+      try {
+        const user = await User.findOneAndUpdate(
+          { stripeCustomer: customerId },
+          { stripeCustomer: null, subscription: 'Trial'},
+          { new: true}
+          )
+
+        if (user) {
+          const userEmail = user.email
+          console.log(`Subscription deleted for user: ${userEmail}`)
+
+          await handleSubscriptionDeleted(userEmail);
+        } else {
+          console.log(`User not found for customerId: ${customerId}`);
+        }
+
+      }catch (error) {
+        console.error(`Error handling customer.subscription.deleted event: ${error}`);
+      }
+      default:
       console.log(`Unhandled event type ${event.type}`);
   }
 

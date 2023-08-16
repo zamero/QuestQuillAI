@@ -14,6 +14,11 @@ const usersSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    stripeCustomer: {
+        default: 'null',
+        type: String,
+        required: false
+    },
     calls: {
         default: 0,
         type: Number,
