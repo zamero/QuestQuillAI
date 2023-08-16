@@ -16,7 +16,7 @@ const db = mongoose.connection;
 db.on("error", (err) => {
   console.error(`err: ${err}`);
 }); // if connected
-db.on("connected", (err, res) => {
+db.on("connected", () => {
   console.log("Connected to database");
 });
 

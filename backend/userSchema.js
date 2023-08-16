@@ -22,7 +22,7 @@ const usersSchema = mongoose.Schema({
     calls: {
         default: 0,
         type: Number,
-        required: true
+        required: false
     },
     Characters: [
         {   

@@ -55,6 +55,7 @@ const Dashboard2: React.FC = () => {
   const handleVoiceChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
+    console.log("Selected voice:", event.target.value)
     setVoice(event.target.value)
   }
 
