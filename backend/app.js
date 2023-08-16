@@ -60,7 +60,6 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
       const paymentIntentSucceeded = event.data.object
       const customerIdentity = paymentIntentSucceeded.customer
       const email = "samer.essam@chasacademy.se";
-      console.log(paymentIntentSucceeded, customerIdentity);
 
       try {
         const user = await User.findOneAndUpdate(
