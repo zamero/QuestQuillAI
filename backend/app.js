@@ -268,7 +268,7 @@ app.post('/prompt/:id/:index', async (req, res) => {
           'Content-Type': 'application/json',
           "OpenAI-Organization": "org-5l5Gk68z2cUziB1qLBYPugOq"
         },
-        timeout: 15000,
+        timeout: 40000,
       }
     );
 
@@ -292,7 +292,7 @@ app.post('/prompt/:id/:index', async (req, res) => {
           'xi-api-key': process.env.ELEVENLABS_KEY
         },
         responseType: 'arraybuffer', // Set the response type to 'arraybuffer'
-        timeout: 15000,
+        timeout: 40000,
       }
     );
 
