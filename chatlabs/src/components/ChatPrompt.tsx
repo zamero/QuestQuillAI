@@ -46,6 +46,7 @@ function ChatPrompt({ index }: { index: number }) {
             "Content-Type": "application/json",
           },
           responseType: "arraybuffer",
+          timeout: 40000,
         }
       )
 
